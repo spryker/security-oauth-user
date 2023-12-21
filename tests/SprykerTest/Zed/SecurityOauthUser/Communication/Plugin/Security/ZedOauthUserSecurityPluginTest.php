@@ -11,8 +11,10 @@ use Codeception\Test\Unit;
 use Generated\Shared\Transfer\ResourceOwnerResponseTransfer;
 use Generated\Shared\Transfer\ResourceOwnerTransfer;
 use Generated\Shared\Transfer\UserTransfer;
+use ReflectionClass;
 use Spryker\Shared\Security\Configuration\SecurityConfiguration;
-use Spryker\Zed\SecurityOauthUser\Communication\Plugin\Security\OauthUserSecurityPlugin;
+use Spryker\Zed\Security\Communication\Configurator\SecurityConfigurator;
+use Spryker\Zed\SecurityOauthUser\Communication\Plugin\Security\ZedOauthUserSecurityPlugin;
 use Spryker\Zed\SecurityOauthUserExtension\Dependency\Plugin\OauthUserClientStrategyPluginInterface;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -25,10 +27,10 @@ use Symfony\Component\HttpFoundation\Response;
  * @group Communication
  * @group Plugin
  * @group Security
- * @group OauthUserSecurityPluginTest
+ * @group ZedOauthUserSecurityPluginTest
  * Add your own group annotations below this line
  */
-class OauthUserSecurityPluginTest extends Unit
+class ZedOauthUserSecurityPluginTest extends Unit
 {
     /**
      * @uses \Spryker\Zed\Session\Communication\Plugin\Application\SessionApplicationPlugin::SERVICE_SESSION
@@ -38,8 +40,6 @@ class OauthUserSecurityPluginTest extends Unit
     protected const SERVICE_SESSION = 'session';
 
     /**
-     * @uses \Spryker\Zed\Security\Communication\Plugin\Application\SecurityApplicationPlugin::SERVICE_SECURITY_TOKEN_STORAGE
-     *
      * @var string
      */
     protected const SERVICE_SECURITY_TOKEN_STORAGE = 'security.token_storage';
@@ -53,11 +53,6 @@ class OauthUserSecurityPluginTest extends Unit
      * @var string
      */
     protected const SOME_CODE = 'SOME_CODE';
-
-    /**
-     * @var string
-     */
-    protected const SOME_STATE = 'SOME_STATE';
 
     /**
      * @uses \Spryker\Zed\SecurityOauthUser\Communication\Plugin\Security\OauthUserSecurityPlugin::SECURITY_FIREWALL_NAME
@@ -78,7 +73,7 @@ class OauthUserSecurityPluginTest extends Unit
      *
      * @var string
      */
-    protected const SECURITY_OAUTH_USER_TOKEN_AUTHENTICATOR = 'security.oauth_user.token.authenticator';
+    protected const SECURITY_OAUTH_USER_TOKEN_AUTHENTICATOR = 'security.OauthUser.token.authenticator';
 
     /**
      * @var \SprykerTest\Zed\SecurityOauthUser\SecurityOauthUserCommunicationTester
@@ -88,27 +83,23 @@ class OauthUserSecurityPluginTest extends Unit
     /**
      * @return void
      */
-    protected function _before(): void
-    {
-        parent::_before();
-
-        $this->tester->enableSecurityApplicationPlugin();
-    }
-
-    /**
-     * @return void
-     */
     protected function setUp(): void
     {
         parent::setUp();
 
-        if ($this->tester->isSymfonyVersion5() !== true) {
-            $this->markTestSkipped('Compatible only with `symfony/security-core` package version ^5.0.0. To be removed once Symfony 5 support is discontinued.');
+        if ($this->tester->isSymfonyVersion5() === true) {
+            $this->markTestSkipped('Compatible only with `symfony/security-core` package version >= 6. Will be enabled by default once Symfony 5 support is discontinued.');
         }
 
         $this->tester->addRoute('test', '/ignorable', function () {
             return new Response('test-text');
         });
+
+        $securityPlugin = new ZedOauthUserSecurityPlugin();
+        $securityPlugin->setFactory($this->tester->getCommunicationFactory());
+        $this->tester->addSecurityPlugin($securityPlugin);
+        $this->tester->mockSecurityDependencies();
+        $this->tester->enableSecurityApplicationPlugin();
     }
 
     /**
@@ -126,10 +117,6 @@ class OauthUserSecurityPluginTest extends Unit
         $this->tester->setOauthUserClientStrategyPlugin(
             $this->createOauthUserClientStrategyPluginMock(true, $userTransfer->getUsername()),
         );
-
-        $securityPlugin = new OauthUserSecurityPlugin();
-        $securityPlugin->setFactory($this->tester->getCommunicationFactory());
-        $this->tester->addSecurityPlugin($securityPlugin);
 
         $token = $container->get(static::SERVICE_SECURITY_TOKEN_STORAGE)->getToken();
         $this->assertNull($token);
@@ -157,7 +144,7 @@ class OauthUserSecurityPluginTest extends Unit
     public function testOauthUserFirewallExpandUserFirewall(): void
     {
         // Arrange
-        $securityPlugin = new OauthUserSecurityPlugin();
+        $securityPlugin = new ZedOauthUserSecurityPlugin();
         $securityPlugin->setFactory($this->tester->getCommunicationFactory());
 
         $securityBuilder = (new SecurityConfiguration())
@@ -173,7 +160,7 @@ class OauthUserSecurityPluginTest extends Unit
         $this->assertNotNull($firewalls[static::SECURITY_USER_FIREWALL_NAME]['users']);
         $this->assertSame(
             static::SECURITY_OAUTH_USER_TOKEN_AUTHENTICATOR,
-            $firewalls[static::SECURITY_USER_FIREWALL_NAME]['guard']['authenticators'][0],
+            $firewalls[static::SECURITY_USER_FIREWALL_NAME]['form']['authenticators'][0],
         );
     }
 
@@ -183,7 +170,7 @@ class OauthUserSecurityPluginTest extends Unit
     public function testOauthUserFirewallAddOauthUserFirwallToSecurityService(): void
     {
         // Arrange
-        $securityPlugin = new OauthUserSecurityPlugin();
+        $securityPlugin = new ZedOauthUserSecurityPlugin();
         $securityPlugin->setFactory($this->tester->getCommunicationFactory());
 
         // Act
@@ -196,7 +183,7 @@ class OauthUserSecurityPluginTest extends Unit
         $this->assertNotNull($firewalls[static::SECURITY_FIREWALL_NAME]['users']);
         $this->assertSame(
             static::SECURITY_OAUTH_USER_TOKEN_AUTHENTICATOR,
-            $firewalls[static::SECURITY_FIREWALL_NAME]['guard']['authenticators'][0],
+            $firewalls[static::SECURITY_FIREWALL_NAME]['form']['authenticators'][0],
         );
     }
 
@@ -211,10 +198,6 @@ class OauthUserSecurityPluginTest extends Unit
         $this->tester->setOauthUserClientStrategyPlugin(
             $this->createOauthUserClientStrategyPluginMock(false),
         );
-
-        $securityPlugin = new OauthUserSecurityPlugin();
-        $securityPlugin->setFactory($this->tester->getCommunicationFactory());
-        $this->tester->addSecurityPlugin($securityPlugin);
 
         $token = $container->get(static::SERVICE_SECURITY_TOKEN_STORAGE)->getToken();
         $this->assertNull($token);
@@ -247,10 +230,6 @@ class OauthUserSecurityPluginTest extends Unit
         $this->assertNull($token);
 
         $httpKernelBrowser = $this->tester->getHttpKernelBrowser();
-
-        $securityPlugin = new OauthUserSecurityPlugin();
-        $securityPlugin->setFactory($this->tester->getCommunicationFactory());
-        $this->tester->addSecurityPlugin($securityPlugin);
 
         // Act
         $httpKernelBrowser->request('get', '/ignorable');
@@ -294,5 +273,18 @@ class OauthUserSecurityPluginTest extends Unit
             ->willReturn($resourceOwnerResponseTransfer);
 
         return $oauthUserClientStrategyPluginMock;
+    }
+
+    /**
+     * @return void
+     */
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        $reflection = new ReflectionClass(SecurityConfigurator::class);
+        $property = $reflection->getProperty('securityConfiguration');
+        $property->setAccessible(true);
+        $property->setValue(null);
     }
 }
