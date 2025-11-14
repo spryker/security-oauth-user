@@ -15,6 +15,7 @@ use ReflectionClass;
 use Spryker\Shared\Security\Configuration\SecurityConfiguration;
 use Spryker\Zed\Security\Communication\Configurator\SecurityConfigurator;
 use Spryker\Zed\SecurityOauthUser\Communication\Plugin\Security\ZedOauthUserSecurityPlugin;
+use Spryker\Zed\SecurityOauthUser\SecurityOauthUserConfig;
 use Spryker\Zed\SecurityOauthUserExtension\Dependency\Plugin\OauthUserClientStrategyPluginInterface;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -95,7 +96,7 @@ class ZedOauthUserSecurityPluginTest extends Unit
             return new Response('test-text');
         });
 
-        $this->tester->addRoute('security-mock-route', '/security-oauth-user/login', function () {
+        $this->tester->addRoute(SecurityOauthUserConfig::ROUTE_NAME_OAUTH_USER_LOGIN, '/security-oauth-user/login', function () {
             // Only exists to make the router for tests finding the requested route.
         });
 
