@@ -95,6 +95,10 @@ class ZedOauthUserSecurityPluginTest extends Unit
             return new Response('test-text');
         });
 
+        $this->tester->addRoute('security-mock-route', '/security-oauth-user/login', function () {
+            // Only exists to make the router for tests finding the requested route.
+        });
+
         $securityPlugin = new ZedOauthUserSecurityPlugin();
         $securityPlugin->setFactory($this->tester->getCommunicationFactory());
         $this->tester->addSecurityPlugin($securityPlugin);
