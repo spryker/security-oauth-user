@@ -109,6 +109,10 @@ class OauthUserSecurityPluginTest extends Unit
         $this->tester->addRoute('test', '/ignorable', function () {
             return new Response('test-text');
         });
+
+        $this->tester->addRoute('security-oauth-user:login', '/security-oauth-user/login', function () {
+            return new Response('oauth-login-page');
+        });
     }
 
     /**
