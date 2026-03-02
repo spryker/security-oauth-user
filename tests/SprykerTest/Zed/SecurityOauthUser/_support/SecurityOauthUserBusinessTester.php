@@ -35,27 +35,16 @@ class SecurityOauthUserBusinessTester extends Actor
 {
     use _generated\SecurityOauthUserBusinessTesterActions;
 
-    /**
-     * @return \Spryker\Zed\SecurityOauthUser\Business\SecurityOauthUserFacadeInterface
-     */
     public function getSecurityOauthUserFacade(): SecurityOauthUserFacadeInterface
     {
         return $this->getLocator()->securityOauthUser()->facade();
     }
 
-    /**
-     * @return \Spryker\Zed\User\Business\UserFacadeInterface
-     */
     public function getUserFacade(): UserFacadeInterface
     {
         return $this->getLocator()->user()->facade();
     }
 
-    /**
-     * @param \Spryker\Zed\SecurityOauthUserExtension\Dependency\Plugin\OauthUserClientStrategyPluginInterface $oauthUserClientStrategyPlugin
-     *
-     * @return void
-     */
     public function setOauthUserClientStrategyPlugin(
         OauthUserClientStrategyPluginInterface $oauthUserClientStrategyPlugin
     ): void {
@@ -64,11 +53,6 @@ class SecurityOauthUserBusinessTester extends Actor
         ]);
     }
 
-    /**
-     * @param \Spryker\Zed\SecurityOauthUserExtension\Dependency\Plugin\OauthUserRestrictionPluginInterface $oauthUserRestrictionPlugin
-     *
-     * @return void
-     */
     public function setOauthUserRestrictionPlugin(
         OauthUserRestrictionPluginInterface $oauthUserRestrictionPlugin
     ): void {
@@ -77,12 +61,6 @@ class SecurityOauthUserBusinessTester extends Actor
         ]);
     }
 
-    /**
-     * @param string $authenticationStrategy
-     * @param string|null $groupName
-     *
-     * @return \Spryker\Zed\SecurityOauthUser\Business\SecurityOauthUserFacadeInterface
-     */
     public function mockSecurityOauthUserFacade(
         string $authenticationStrategy,
         ?string $groupName = null

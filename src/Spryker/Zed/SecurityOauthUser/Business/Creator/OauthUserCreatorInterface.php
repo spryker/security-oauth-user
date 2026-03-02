@@ -12,10 +12,5 @@ use Generated\Shared\Transfer\UserTransfer;
 
 interface OauthUserCreatorInterface
 {
-    /**
-     * @param \Generated\Shared\Transfer\UserCriteriaTransfer $userCriteriaTransfer
-     *
-     * @return \Generated\Shared\Transfer\UserTransfer
-     */
     public function createOauthUser(UserCriteriaTransfer $userCriteriaTransfer): UserTransfer;
 }

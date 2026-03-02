@@ -25,11 +25,6 @@ class ResourceOwnerReader implements ResourceOwnerReaderInterface
         $this->oauthUserClientStrategyPlugins = $oauthUserClientStrategyPlugins;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\ResourceOwnerRequestTransfer $resourceOwnerRequestTransfer
-     *
-     * @return \Generated\Shared\Transfer\ResourceOwnerResponseTransfer
-     */
     public function getResourceOwner(
         ResourceOwnerRequestTransfer $resourceOwnerRequestTransfer
     ): ResourceOwnerResponseTransfer {

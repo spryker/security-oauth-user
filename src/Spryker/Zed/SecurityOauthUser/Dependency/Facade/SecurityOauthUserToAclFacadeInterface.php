@@ -20,10 +20,5 @@ interface SecurityOauthUserToAclFacadeInterface
      */
     public function addUserToGroup($idUser, $idGroup): int;
 
-    /**
-     * @param \Generated\Shared\Transfer\GroupCriteriaTransfer $groupCriteriaTransfer
-     *
-     * @return \Generated\Shared\Transfer\GroupTransfer|null
-     */
     public function findGroup(GroupCriteriaTransfer $groupCriteriaTransfer): ?GroupTransfer;
 }

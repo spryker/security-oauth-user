@@ -12,15 +12,7 @@ use Generated\Shared\Transfer\UserTransfer;
 
 interface AuthenticationStrategyInterface
 {
-    /**
-     * @return string
-     */
     public function getAuthenticationStrategy(): string;
 
-    /**
-     * @param \Generated\Shared\Transfer\UserCriteriaTransfer $userCriteriaTransfer
-     *
-     * @return \Generated\Shared\Transfer\UserTransfer|null
-     */
     public function resolveOauthUser(UserCriteriaTransfer $userCriteriaTransfer): ?UserTransfer;
 }

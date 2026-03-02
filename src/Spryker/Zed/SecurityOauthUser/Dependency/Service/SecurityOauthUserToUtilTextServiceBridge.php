@@ -22,11 +22,6 @@ class SecurityOauthUserToUtilTextServiceBridge implements SecurityOauthUserToUti
         $this->utilTextService = $utilTextService;
     }
 
-    /**
-     * @param int $length
-     *
-     * @return string
-     */
     public function generateRandomString(int $length): string
     {
         return $this->utilTextService->generateRandomString($length);

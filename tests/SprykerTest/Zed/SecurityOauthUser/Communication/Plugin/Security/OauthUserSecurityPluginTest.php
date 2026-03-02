@@ -85,9 +85,6 @@ class OauthUserSecurityPluginTest extends Unit
      */
     protected $tester;
 
-    /**
-     * @return void
-     */
     protected function _before(): void
     {
         parent::_before();
@@ -95,9 +92,6 @@ class OauthUserSecurityPluginTest extends Unit
         $this->tester->enableSecurityApplicationPlugin();
     }
 
-    /**
-     * @return void
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -115,9 +109,6 @@ class OauthUserSecurityPluginTest extends Unit
         });
     }
 
-    /**
-     * @return void
-     */
     public function testOauthUserCanLogin(): void
     {
         // Arrange
@@ -155,9 +146,6 @@ class OauthUserSecurityPluginTest extends Unit
         $this->assertSame($userTransfer->getUsername(), $user->getUsername(), 'Expected that usernames match.');
     }
 
-    /**
-     * @return void
-     */
     public function testOauthUserFirewallExpandUserFirewall(): void
     {
         // Arrange
@@ -181,9 +169,6 @@ class OauthUserSecurityPluginTest extends Unit
         );
     }
 
-    /**
-     * @return void
-     */
     public function testOauthUserFirewallAddOauthUserFirwallToSecurityService(): void
     {
         // Arrange
@@ -204,9 +189,6 @@ class OauthUserSecurityPluginTest extends Unit
         );
     }
 
-    /**
-     * @return void
-     */
     public function testOauthUserWithInvalidCredentialsCanNotLogin(): void
     {
         // Arrange
@@ -238,9 +220,6 @@ class OauthUserSecurityPluginTest extends Unit
         $this->assertNull($token, 'Expected that user with invalid credentials can not login.');
     }
 
-    /**
-     * @return void
-     */
     public function testIgnorablePathsAreAccessible(): void
     {
         // Arrange

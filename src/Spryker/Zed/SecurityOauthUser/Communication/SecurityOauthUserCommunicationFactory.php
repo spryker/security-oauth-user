@@ -39,30 +39,16 @@ use Symfony\Component\Security\Http\Authenticator\AuthenticatorInterface;
  */
 class SecurityOauthUserCommunicationFactory extends AbstractCommunicationFactory
 {
-    /**
-     * @return \Symfony\Component\Security\Core\User\UserProviderInterface
-     */
     public function createOauthUserProvider(): UserProviderInterface
     {
         return new OauthUserProvider();
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\UserTransfer $userTransfer
-     *
-     * @return \Spryker\Zed\SecurityOauthUser\Communication\Security\SecurityOauthUserInterface
-     */
     public function createSecurityOauthUser(UserTransfer $userTransfer): SecurityOauthUserInterface
     {
         return new SecurityOauthUser($userTransfer, $this->getConfig()->getOauthUserRoles());
     }
 
-    /**
-     * @param \Symfony\Component\Security\Core\User\UserInterface $user
-     * @param string $providerKey
-     *
-     * @return \Symfony\Component\Security\Guard\Token\GuardTokenInterface
-     */
     public function createPostAuthenticationGuardToken(UserInterface $user, string $providerKey): GuardTokenInterface
     {
         return new PostAuthenticationGuardToken(
@@ -72,57 +58,36 @@ class SecurityOauthUserCommunicationFactory extends AbstractCommunicationFactory
         );
     }
 
-    /**
-     * @return \Spryker\Zed\SecurityOauthUser\Communication\Reader\ResourceOwnerReaderInterface
-     */
     public function createResourceOwnerReader(): ResourceOwnerReaderInterface
     {
         return new ResourceOwnerReader($this->getFacade());
     }
 
-    /**
-     * @return \Symfony\Component\Security\Http\Authentication\AuthenticationSuccessHandlerInterface
-     */
     public function createOauthUserAuthenticationSuccessHandler(): AuthenticationSuccessHandlerInterface
     {
         return new OauthUserAuthenticationSuccessHandler($this->getUserFacade(), $this->getConfig());
     }
 
-    /**
-     * @return \Symfony\Component\Security\Http\Authentication\AuthenticationFailureHandlerInterface
-     */
     public function createOauthUserAuthenticationFailureHandler(): AuthenticationFailureHandlerInterface
     {
         return new OauthUserAuthenticationFailureHandler($this->getMessengerFacade(), $this->getConfig());
     }
 
-    /**
-     * @return \Spryker\Zed\SecurityOauthUser\Dependency\Facade\SecurityOauthUserToUserFacadeInterface
-     */
     public function getUserFacade(): SecurityOauthUserToUserFacadeInterface
     {
         return $this->getProvidedDependency(SecurityOauthUserDependencyProvider::FACADE_USER);
     }
 
-    /**
-     * @return \Spryker\Zed\SecurityOauthUser\Dependency\Facade\SecurityOauthUserToMessengerFacadeInterface
-     */
     public function getMessengerFacade(): SecurityOauthUserToMessengerFacadeInterface
     {
         return $this->getProvidedDependency(SecurityOauthUserDependencyProvider::FACADE_MESSENGER);
     }
 
-    /**
-     * @return \Symfony\Cmf\Component\Routing\ChainRouterInterface
-     */
     public function getRouter(): ChainRouterInterface
     {
         return $this->getProvidedDependency(SecurityOauthUserDependencyProvider::SERVICE_ROUTER);
     }
 
-    /**
-     * @return \Symfony\Component\Security\Http\Authenticator\AuthenticatorInterface
-     */
     public function createOauthUserTokenAuthenticator(): AuthenticatorInterface
     {
         return new OauthUserTokenAuthenticator(
@@ -134,9 +99,6 @@ class SecurityOauthUserCommunicationFactory extends AbstractCommunicationFactory
         );
     }
 
-    /**
-     * @return \Spryker\Zed\SecurityOauthUser\Communication\Expander\SecurityBuilderExpanderInterface
-     */
     public function createSecurityBuilderExpander(): SecurityBuilderExpanderInterface
     {
         if (class_exists(AuthenticationProviderManager::class) === true) {

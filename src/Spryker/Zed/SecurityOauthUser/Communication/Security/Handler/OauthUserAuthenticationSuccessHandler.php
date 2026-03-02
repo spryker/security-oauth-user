@@ -36,10 +36,6 @@ class OauthUserAuthenticationSuccessHandler implements AuthenticationSuccessHand
      */
     protected $securityOauthUserConfig;
 
-    /**
-     * @param \Spryker\Zed\SecurityOauthUser\Dependency\Facade\SecurityOauthUserToUserFacadeInterface $userFacade
-     * @param \Spryker\Zed\SecurityOauthUser\SecurityOauthUserConfig $securityOauthUserConfig
-     */
     public function __construct(
         SecurityOauthUserToUserFacadeInterface $userFacade,
         SecurityOauthUserConfig $securityOauthUserConfig
@@ -48,12 +44,6 @@ class OauthUserAuthenticationSuccessHandler implements AuthenticationSuccessHand
         $this->securityOauthUserConfig = $securityOauthUserConfig;
     }
 
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param \Symfony\Component\Security\Core\Authentication\Token\TokenInterface $token
-     *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token): RedirectResponse
     {
         /** @var \Spryker\Zed\SecurityOauthUser\Communication\Security\SecurityOauthUserInterface $user */
@@ -64,11 +54,6 @@ class OauthUserAuthenticationSuccessHandler implements AuthenticationSuccessHand
         return $this->createRedirectResponse($request);
     }
 
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     */
     protected function createRedirectResponse(Request $request): RedirectResponse
     {
         $targetUrl = $this->getTargetPath($request->getSession(), static::SECURITY_FIREWALL_NAME);

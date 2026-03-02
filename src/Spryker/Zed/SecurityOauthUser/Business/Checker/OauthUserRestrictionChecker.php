@@ -25,11 +25,6 @@ class OauthUserRestrictionChecker implements OauthUserRestrictionCheckerInterfac
         $this->oauthUserRestrictionPlugins = $oauthUserRestrictionPlugins;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\OauthUserRestrictionRequestTransfer $oauthUserRestrictionRequestTransfer
-     *
-     * @return \Generated\Shared\Transfer\OauthUserRestrictionResponseTransfer
-     */
     public function isOauthUserRestricted(
         OauthUserRestrictionRequestTransfer $oauthUserRestrictionRequestTransfer
     ): OauthUserRestrictionResponseTransfer {

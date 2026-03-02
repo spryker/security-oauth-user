@@ -33,9 +33,6 @@ class IsOauthUserRestrictedTest extends Unit
      */
     protected $tester;
 
-    /**
-     * @return void
-     */
     public function testIsOauthUserRestrictedShouldRestrictOauthUser(): void
     {
         // Arrange
@@ -62,9 +59,6 @@ class IsOauthUserRestrictedTest extends Unit
         );
     }
 
-    /**
-     * @return void
-     */
     public function testIsOauthUserRestrictedShouldNotRestrictOauthUser(): void
     {
         // Arrange
@@ -91,9 +85,6 @@ class IsOauthUserRestrictedTest extends Unit
         );
     }
 
-    /**
-     * @return void
-     */
     public function testIsOauthUserRestrictedThrowAnExceptionWhenRequiredDataIsNotProvided(): void
     {
         // Arrange

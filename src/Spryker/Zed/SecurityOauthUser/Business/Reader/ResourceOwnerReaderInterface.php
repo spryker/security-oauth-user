@@ -12,11 +12,6 @@ use Generated\Shared\Transfer\ResourceOwnerResponseTransfer;
 
 interface ResourceOwnerReaderInterface
 {
-    /**
-     * @param \Generated\Shared\Transfer\ResourceOwnerRequestTransfer $resourceOwnerRequestTransfer
-     *
-     * @return \Generated\Shared\Transfer\ResourceOwnerResponseTransfer
-     */
     public function getResourceOwner(
         ResourceOwnerRequestTransfer $resourceOwnerRequestTransfer
     ): ResourceOwnerResponseTransfer;

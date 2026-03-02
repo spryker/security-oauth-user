@@ -48,9 +48,6 @@ class GetResourceOwnerTest extends Unit
      */
     protected $tester;
 
-    /**
-     * @return void
-     */
     public function testGetResourceOwnerShouldGetResourceOwner(): void
     {
         // Arrange
@@ -74,9 +71,6 @@ class GetResourceOwnerTest extends Unit
         );
     }
 
-    /**
-     * @return void
-     */
     public function testGetResourceOwnerWithWrongRequestShouldNotGetResourceOwner(): void
     {
         // Arrange

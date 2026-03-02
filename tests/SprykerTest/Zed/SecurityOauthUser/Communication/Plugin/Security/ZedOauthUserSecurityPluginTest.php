@@ -81,9 +81,6 @@ class ZedOauthUserSecurityPluginTest extends Unit
      */
     protected $tester;
 
-    /**
-     * @return void
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -107,9 +104,6 @@ class ZedOauthUserSecurityPluginTest extends Unit
         $this->tester->enableSecurityApplicationPlugin();
     }
 
-    /**
-     * @return void
-     */
     public function testOauthUserCanLogin(): void
     {
         // Arrange
@@ -143,9 +137,6 @@ class ZedOauthUserSecurityPluginTest extends Unit
         $this->assertSame($userTransfer->getUsername(), $user->getUsername(), 'Expected that usernames match.');
     }
 
-    /**
-     * @return void
-     */
     public function testOauthUserFirewallExpandUserFirewall(): void
     {
         // Arrange
@@ -169,9 +160,6 @@ class ZedOauthUserSecurityPluginTest extends Unit
         );
     }
 
-    /**
-     * @return void
-     */
     public function testOauthUserFirewallAddOauthUserFirwallToSecurityService(): void
     {
         // Arrange
@@ -192,9 +180,6 @@ class ZedOauthUserSecurityPluginTest extends Unit
         );
     }
 
-    /**
-     * @return void
-     */
     public function testOauthUserWithInvalidCredentialsCanNotLogin(): void
     {
         // Arrange
@@ -222,9 +207,6 @@ class ZedOauthUserSecurityPluginTest extends Unit
         $this->assertNull($token, 'Expected that user with invalid credentials can not login.');
     }
 
-    /**
-     * @return void
-     */
     public function testIgnorablePathsAreAccessible(): void
     {
         // Arrange
@@ -280,9 +262,6 @@ class ZedOauthUserSecurityPluginTest extends Unit
         return $oauthUserClientStrategyPluginMock;
     }
 
-    /**
-     * @return void
-     */
     protected function tearDown(): void
     {
         parent::tearDown();

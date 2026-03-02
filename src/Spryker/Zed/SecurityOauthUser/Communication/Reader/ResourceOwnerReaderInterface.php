@@ -12,10 +12,5 @@ use Symfony\Component\HttpFoundation\Request;
 
 interface ResourceOwnerReaderInterface
 {
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     *
-     * @return \Generated\Shared\Transfer\ResourceOwnerTransfer|null
-     */
     public function getResourceOwner(Request $request): ?ResourceOwnerTransfer;
 }

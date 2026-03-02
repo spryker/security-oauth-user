@@ -150,11 +150,6 @@ class OauthUserProvider extends AbstractPlugin implements UserProviderInterface
         return $userTransfer;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\OauthUserRestrictionResponseTransfer $oauthUserRestrictionResponseTransfer
-     *
-     * @return void
-     */
     protected function addErrorMessages(
         OauthUserRestrictionResponseTransfer $oauthUserRestrictionResponseTransfer
     ): void {
@@ -164,17 +159,11 @@ class OauthUserProvider extends AbstractPlugin implements UserProviderInterface
         }
     }
 
-    /**
-     * @return bool
-     */
     protected function isLoadingApplicable(): bool
     {
         return $this->getFactory()->getRouter()->getContext()->getPathInfo() !== static::PATH_LOGIN_CHECK;
     }
 
-    /**
-     * @return \Symfony\Component\Security\Core\Exception\AuthenticationException
-     */
     protected function getUserNotFoundException(): AuthenticationException
     {
         if ($this->isSymfonyVersion5() === true) {

@@ -37,11 +37,6 @@ class AuthenticationStrategyExecutor implements AuthenticationStrategyExecutorIn
         $this->authenticationStrategies = $authenticationStrategies;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\UserCriteriaTransfer $userCriteriaTransfer
-     *
-     * @return \Generated\Shared\Transfer\UserTransfer|null
-     */
     public function resolveOauthUser(UserCriteriaTransfer $userCriteriaTransfer): ?UserTransfer
     {
         $oauthUserAuthenticationStrategy = $this->resolveOauthUserAuthenticationStrategy();

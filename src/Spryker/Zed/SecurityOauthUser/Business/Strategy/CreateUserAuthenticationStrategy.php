@@ -31,11 +31,6 @@ class CreateUserAuthenticationStrategy implements AuthenticationStrategyInterfac
      */
     protected $oauthUserCreator;
 
-    /**
-     * @param \Spryker\Zed\SecurityOauthUser\SecurityOauthUserConfig $securityOauthUserConfig
-     * @param \Spryker\Zed\SecurityOauthUser\Dependency\Facade\SecurityOauthUserToUserFacadeInterface $userFacade
-     * @param \Spryker\Zed\SecurityOauthUser\Business\Creator\OauthUserCreatorInterface $oauthUserCreator
-     */
     public function __construct(
         SecurityOauthUserConfig $securityOauthUserConfig,
         SecurityOauthUserToUserFacadeInterface $userFacade,
@@ -46,19 +41,11 @@ class CreateUserAuthenticationStrategy implements AuthenticationStrategyInterfac
         $this->oauthUserCreator = $oauthUserCreator;
     }
 
-    /**
-     * @return string
-     */
     public function getAuthenticationStrategy(): string
     {
         return SecurityOauthUserConfig::AUTHENTICATION_STRATEGY_CREATE_USER_ON_FIRST_LOGIN;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\UserCriteriaTransfer $userCriteriaTransfer
-     *
-     * @return \Generated\Shared\Transfer\UserTransfer|null
-     */
     public function resolveOauthUser(UserCriteriaTransfer $userCriteriaTransfer): ?UserTransfer
     {
         $userCriteriaTransfer->requireEmail();

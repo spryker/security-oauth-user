@@ -48,11 +48,6 @@ class SecurityOauthUserCommunicationTester extends Actor
         return $factory;
     }
 
-    /**
-     * @param \Spryker\Zed\SecurityOauthUserExtension\Dependency\Plugin\OauthUserClientStrategyPluginInterface $oauthUserClientStrategyPlugin
-     *
-     * @return void
-     */
     public function setOauthUserClientStrategyPlugin(
         OauthUserClientStrategyPluginInterface $oauthUserClientStrategyPlugin
     ): void {

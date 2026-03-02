@@ -28,10 +28,6 @@ class OauthUserAuthenticationFailureHandler implements AuthenticationFailureHand
      */
     protected $securityOauthUserConfig;
 
-    /**
-     * @param \Spryker\Zed\SecurityOauthUser\Dependency\Facade\SecurityOauthUserToMessengerFacadeInterface $messengerFacade
-     * @param \Spryker\Zed\SecurityOauthUser\SecurityOauthUserConfig $securityOauthUserConfig
-     */
     public function __construct(
         SecurityOauthUserToMessengerFacadeInterface $messengerFacade,
         SecurityOauthUserConfig $securityOauthUserConfig
@@ -40,12 +36,6 @@ class OauthUserAuthenticationFailureHandler implements AuthenticationFailureHand
         $this->securityOauthUserConfig = $securityOauthUserConfig;
     }
 
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param \Symfony\Component\Security\Core\Exception\AuthenticationException $exception
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): Response
     {
         $this->messengerFacade->addErrorMessage(

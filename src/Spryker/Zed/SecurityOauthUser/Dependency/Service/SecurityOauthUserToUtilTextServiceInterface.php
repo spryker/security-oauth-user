@@ -9,10 +9,5 @@ namespace Spryker\Zed\SecurityOauthUser\Dependency\Service;
 
 interface SecurityOauthUserToUtilTextServiceInterface
 {
-    /**
-     * @param int $length
-     *
-     * @return string
-     */
     public function generateRandomString(int $length): string;
 }

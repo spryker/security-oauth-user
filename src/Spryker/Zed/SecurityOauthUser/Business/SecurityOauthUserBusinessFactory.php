@@ -31,33 +31,21 @@ use Spryker\Zed\SecurityOauthUser\SecurityOauthUserDependencyProvider;
  */
 class SecurityOauthUserBusinessFactory extends AbstractBusinessFactory
 {
-    /**
-     * @return \Spryker\Zed\SecurityOauthUser\Business\Reader\ResourceOwnerReaderInterface
-     */
     public function createResourceOwnerReader(): ResourceOwnerReaderInterface
     {
         return new ResourceOwnerReader($this->getOauthUserClientStrategyPlugins());
     }
 
-    /**
-     * @return \Spryker\Zed\SecurityOauthUser\Business\Checker\OauthUserRestrictionCheckerInterface
-     */
     public function createOauthUserRestrictionChecker(): OauthUserRestrictionCheckerInterface
     {
         return new OauthUserRestrictionChecker($this->getOauthUserRestrictionPlugins());
     }
 
-    /**
-     * @return \Spryker\Zed\SecurityOauthUser\Business\Adder\AclGroupAdderInterface
-     */
     public function createAclGroupAdder(): AclGroupAdderInterface
     {
         return new AclGroupAdder($this->getAclFacade());
     }
 
-    /**
-     * @return \Spryker\Zed\SecurityOauthUser\Business\Creator\OauthUserCreatorInterface
-     */
     public function createOauthUserCreator(): OauthUserCreatorInterface
     {
         return new OauthUserCreator(
@@ -68,9 +56,6 @@ class SecurityOauthUserBusinessFactory extends AbstractBusinessFactory
         );
     }
 
-    /**
-     * @return \Spryker\Zed\SecurityOauthUser\Business\Executor\AuthenticationStrategyExecutorInterface
-     */
     public function createAuthenticationStrategyExecutor(): AuthenticationStrategyExecutorInterface
     {
         return new AuthenticationStrategyExecutor($this->getConfig(), $this->getAuthenticationStrategyList());
@@ -87,17 +72,11 @@ class SecurityOauthUserBusinessFactory extends AbstractBusinessFactory
         ];
     }
 
-    /**
-     * @return \Spryker\Zed\SecurityOauthUser\Business\Strategy\AuthenticationStrategyInterface
-     */
     public function createExistingUserAuthenticationStrategy(): AuthenticationStrategyInterface
     {
         return new ExistingUserAuthenticationStrategy($this->getConfig(), $this->getUserFacade());
     }
 
-    /**
-     * @return \Spryker\Zed\SecurityOauthUser\Business\Strategy\AuthenticationStrategyInterface
-     */
     public function createCreateUserAuthenticationStrategy(): AuthenticationStrategyInterface
     {
         return new CreateUserAuthenticationStrategy(
@@ -107,25 +86,16 @@ class SecurityOauthUserBusinessFactory extends AbstractBusinessFactory
         );
     }
 
-    /**
-     * @return \Spryker\Zed\SecurityOauthUser\Dependency\Service\SecurityOauthUserToUtilTextServiceInterface
-     */
     public function getUtilTextService(): SecurityOauthUserToUtilTextServiceInterface
     {
         return $this->getProvidedDependency(SecurityOauthUserDependencyProvider::SERVICE_UTIL_TEXT);
     }
 
-    /**
-     * @return \Spryker\Zed\SecurityOauthUser\Dependency\Facade\SecurityOauthUserToUserFacadeInterface
-     */
     public function getUserFacade(): SecurityOauthUserToUserFacadeInterface
     {
         return $this->getProvidedDependency(SecurityOauthUserDependencyProvider::FACADE_USER);
     }
 
-    /**
-     * @return \Spryker\Zed\SecurityOauthUser\Dependency\Facade\SecurityOauthUserToAclFacadeInterface
-     */
     public function getAclFacade(): SecurityOauthUserToAclFacadeInterface
     {
         return $this->getProvidedDependency(SecurityOauthUserDependencyProvider::FACADE_ACL);

@@ -36,11 +36,6 @@ class SecurityOauthUserToAclFacadeBridge implements SecurityOauthUserToAclFacade
         return $this->aclFacade->addUserToGroup($idUser, $idGroup);
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\GroupCriteriaTransfer $groupCriteriaTransfer
-     *
-     * @return \Generated\Shared\Transfer\GroupTransfer|null
-     */
     public function findGroup(GroupCriteriaTransfer $groupCriteriaTransfer): ?GroupTransfer
     {
         return $this->aclFacade->findGroup($groupCriteriaTransfer);

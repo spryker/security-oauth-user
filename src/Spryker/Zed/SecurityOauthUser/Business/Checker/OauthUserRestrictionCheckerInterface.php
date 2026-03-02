@@ -12,11 +12,6 @@ use Generated\Shared\Transfer\OauthUserRestrictionResponseTransfer;
 
 interface OauthUserRestrictionCheckerInterface
 {
-    /**
-     * @param \Generated\Shared\Transfer\OauthUserRestrictionRequestTransfer $oauthUserRestrictionRequestTransfer
-     *
-     * @return \Generated\Shared\Transfer\OauthUserRestrictionResponseTransfer
-     */
     public function isOauthUserRestricted(
         OauthUserRestrictionRequestTransfer $oauthUserRestrictionRequestTransfer
     ): OauthUserRestrictionResponseTransfer;

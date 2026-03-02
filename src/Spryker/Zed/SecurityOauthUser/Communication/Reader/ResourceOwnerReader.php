@@ -20,19 +20,11 @@ class ResourceOwnerReader implements ResourceOwnerReaderInterface
      */
     protected $securityOauthUserFacade;
 
-    /**
-     * @param \Spryker\Zed\SecurityOauthUser\Business\SecurityOauthUserFacadeInterface $securityOauthUserFacade
-     */
     public function __construct(SecurityOauthUserFacadeInterface $securityOauthUserFacade)
     {
         $this->securityOauthUserFacade = $securityOauthUserFacade;
     }
 
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     *
-     * @return \Generated\Shared\Transfer\ResourceOwnerTransfer|null
-     */
     public function getResourceOwner(Request $request): ?ResourceOwnerTransfer
     {
         $authenticationCode = $request->query->get(SecurityOauthUserConfig::REQUEST_PARAMETER_AUTHENTICATION_CODE);
@@ -53,11 +45,6 @@ class ResourceOwnerReader implements ResourceOwnerReaderInterface
         return $resourceOwnerResponseTransfer->getResourceOwner();
     }
 
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     *
-     * @return \Generated\Shared\Transfer\ResourceOwnerRequestTransfer
-     */
     protected function createResourceOwnerRequestTransfer(Request $request): ResourceOwnerRequestTransfer
     {
         return (new ResourceOwnerRequestTransfer())->fromArray($request->query->all(), true);

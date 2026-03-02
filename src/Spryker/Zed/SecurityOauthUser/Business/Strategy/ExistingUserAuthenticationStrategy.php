@@ -25,10 +25,6 @@ class ExistingUserAuthenticationStrategy implements AuthenticationStrategyInterf
      */
     protected $userFacade;
 
-    /**
-     * @param \Spryker\Zed\SecurityOauthUser\SecurityOauthUserConfig $securityOauthUserConfig
-     * @param \Spryker\Zed\SecurityOauthUser\Dependency\Facade\SecurityOauthUserToUserFacadeInterface $userFacade
-     */
     public function __construct(
         SecurityOauthUserConfig $securityOauthUserConfig,
         SecurityOauthUserToUserFacadeInterface $userFacade
@@ -37,19 +33,11 @@ class ExistingUserAuthenticationStrategy implements AuthenticationStrategyInterf
         $this->userFacade = $userFacade;
     }
 
-    /**
-     * @return string
-     */
     public function getAuthenticationStrategy(): string
     {
         return SecurityOauthUserConfig::AUTHENTICATION_STRATEGY_ACCEPT_ONLY_EXISTING_USERS;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\UserCriteriaTransfer $userCriteriaTransfer
-     *
-     * @return \Generated\Shared\Transfer\UserTransfer|null
-     */
     public function resolveOauthUser(UserCriteriaTransfer $userCriteriaTransfer): ?UserTransfer
     {
         $userCriteriaTransfer->requireEmail();

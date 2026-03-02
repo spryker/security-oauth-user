@@ -36,21 +36,11 @@ class SecurityOauthUserToUserFacadeBridge implements SecurityOauthUserToUserFaca
         return $this->userFacade->setCurrentUser($user);
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\UserTransfer $userTransfer
-     *
-     * @return \Generated\Shared\Transfer\UserTransfer
-     */
     public function createUser(UserTransfer $userTransfer): UserTransfer
     {
         return $this->userFacade->createUser($userTransfer);
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\UserCriteriaTransfer $userCriteriaTransfer
-     *
-     * @return \Generated\Shared\Transfer\UserCollectionTransfer
-     */
     public function getUserCollection(UserCriteriaTransfer $userCriteriaTransfer): UserCollectionTransfer
     {
         return $this->userFacade->getUserCollection($userCriteriaTransfer);

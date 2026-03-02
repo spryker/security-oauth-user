@@ -41,12 +41,6 @@ class OauthUserCreator implements OauthUserCreatorInterface
      */
     protected $aclGroupAdder;
 
-    /**
-     * @param \Spryker\Zed\SecurityOauthUser\SecurityOauthUserConfig $securityOauthUserConfig
-     * @param \Spryker\Zed\SecurityOauthUser\Dependency\Facade\SecurityOauthUserToUserFacadeInterface $userFacade
-     * @param \Spryker\Zed\SecurityOauthUser\Dependency\Service\SecurityOauthUserToUtilTextServiceInterface $utilTextService
-     * @param \Spryker\Zed\SecurityOauthUser\Business\Adder\AclGroupAdderInterface $aclGroupAdder
-     */
     public function __construct(
         SecurityOauthUserConfig $securityOauthUserConfig,
         SecurityOauthUserToUserFacadeInterface $userFacade,
@@ -59,11 +53,6 @@ class OauthUserCreator implements OauthUserCreatorInterface
         $this->aclGroupAdder = $aclGroupAdder;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\UserCriteriaTransfer $userCriteriaTransfer
-     *
-     * @return \Generated\Shared\Transfer\UserTransfer
-     */
     public function createOauthUser(UserCriteriaTransfer $userCriteriaTransfer): UserTransfer
     {
         $userTransfer = $this->createUserTransfer($userCriteriaTransfer);
@@ -77,11 +66,6 @@ class OauthUserCreator implements OauthUserCreatorInterface
         return $userTransfer;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\UserCriteriaTransfer $userCriteriaTransfer
-     *
-     * @return \Generated\Shared\Transfer\UserTransfer
-     */
     protected function createUserTransfer(UserCriteriaTransfer $userCriteriaTransfer): UserTransfer
     {
         return (new UserTransfer())

@@ -19,9 +19,6 @@ class AclGroupAdder implements AclGroupAdderInterface
      */
     protected $aclFacade;
 
-    /**
-     * @param \Spryker\Zed\SecurityOauthUser\Dependency\Facade\SecurityOauthUserToAclFacadeInterface $aclFacade
-     */
     public function __construct(SecurityOauthUserToAclFacadeInterface $aclFacade)
     {
         $this->aclFacade = $aclFacade;

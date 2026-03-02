@@ -68,13 +68,6 @@ class OauthUserTokenAuthenticator implements AuthenticatorInterface, Authenticat
      */
     protected UserProviderInterface $userProvider;
 
-    /**
-     * @param \Spryker\Zed\SecurityOauthUser\Communication\Reader\ResourceOwnerReaderInterface $resourceOwnerReader
-     * @param \Symfony\Component\Security\Http\Authentication\AuthenticationSuccessHandlerInterface $authenticationSuccessHandler
-     * @param \Symfony\Component\Security\Http\Authentication\AuthenticationFailureHandlerInterface $authenticationFailureHandler
-     * @param \Spryker\Zed\SecurityOauthUser\SecurityOauthUserConfig $config
-     * @param \Symfony\Component\Security\Core\User\UserProviderInterface $userProvider
-     */
     public function __construct(
         ResourceOwnerReaderInterface $resourceOwnerReader,
         AuthenticationSuccessHandlerInterface $authenticationSuccessHandler,
@@ -111,11 +104,6 @@ class OauthUserTokenAuthenticator implements AuthenticatorInterface, Authenticat
         );
     }
 
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     *
-     * @return bool|null
-     */
     public function supports(Request $request): ?bool
     {
         return $request->attributes->get(static::PARAMETER_ROUTE) === SecurityOauthUserConfig::ROUTE_NAME_OAUTH_USER_LOGIN;
@@ -133,34 +121,16 @@ class OauthUserTokenAuthenticator implements AuthenticatorInterface, Authenticat
         return $this->authenticationSuccessHandler->onAuthenticationSuccess($request, $token);
     }
 
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param \Symfony\Component\Security\Core\Exception\AuthenticationException $exception
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): Response
     {
         return $this->authenticationFailureHandler->onAuthenticationFailure($request, $exception);
     }
 
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param \Symfony\Component\Security\Core\Exception\AuthenticationException|null $authException
-     *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     */
     public function start(Request $request, ?AuthenticationException $authException = null): RedirectResponse
     {
         return new RedirectResponse($this->config->getUrlLogin());
     }
 
-    /**
-     * @param \Symfony\Component\Security\Http\Authenticator\Passport\Passport $passport
-     * @param string $firewallName
-     *
-     * @return \Symfony\Component\Security\Core\Authentication\Token\TokenInterface
-     */
     public function createToken(Passport $passport, string $firewallName): TokenInterface
     {
         return new PostAuthenticationToken(

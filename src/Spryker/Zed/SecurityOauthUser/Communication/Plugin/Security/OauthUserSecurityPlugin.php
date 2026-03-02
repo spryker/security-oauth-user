@@ -83,11 +83,6 @@ class OauthUserSecurityPlugin extends AbstractPlugin implements SecurityPluginIn
         return $securityBuilder;
     }
 
-    /**
-     * @param \Spryker\Shared\SecurityExtension\Configuration\SecurityBuilderInterface $securityBuilder
-     *
-     * @return \Spryker\Shared\SecurityExtension\Configuration\SecurityBuilderInterface
-     */
     protected function extendUserFirewall(SecurityBuilderInterface $securityBuilder): SecurityBuilderInterface
     {
         $userFirewallConfiguration = $this->findFirewall(static::SECURITY_USER_FIREWALL_NAME, $securityBuilder);
@@ -113,11 +108,6 @@ class OauthUserSecurityPlugin extends AbstractPlugin implements SecurityPluginIn
         return $securityBuilder;
     }
 
-    /**
-     * @param \Spryker\Shared\SecurityExtension\Configuration\SecurityBuilderInterface $securityBuilder
-     *
-     * @return \Spryker\Shared\SecurityExtension\Configuration\SecurityBuilderInterface
-     */
     protected function addOauthUserFirewall(SecurityBuilderInterface $securityBuilder): SecurityBuilderInterface
     {
         $securityBuilder->addFirewall(static::SECURITY_FIREWALL_NAME, [
@@ -141,11 +131,6 @@ class OauthUserSecurityPlugin extends AbstractPlugin implements SecurityPluginIn
         return $securityBuilder;
     }
 
-    /**
-     * @param \Spryker\Shared\SecurityExtension\Configuration\SecurityBuilderInterface $securityBuilder
-     *
-     * @return \Spryker\Shared\SecurityExtension\Configuration\SecurityBuilderInterface
-     */
     protected function addAccessRules(SecurityBuilderInterface $securityBuilder): SecurityBuilderInterface
     {
         $accessRules = [

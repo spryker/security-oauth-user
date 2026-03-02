@@ -41,9 +41,6 @@ class ResolveOauthUserTest extends Unit
      */
     protected $tester;
 
-    /**
-     * @return void
-     */
     public function testResolveOauthUserShouldResolveOauthUserWhenSelectedStrategyIsAcceptExistingUsers(): void
     {
         // Arrange
@@ -63,9 +60,6 @@ class ResolveOauthUserTest extends Unit
         $this->assertNotNull($resolvedUserTransfer, 'Expected that oauth user is resolved.');
     }
 
-    /**
-     * @return void
-     */
     public function testResolveOauthUserShouldNotResolveOauthUserWithFakeEmailWhenSelectedStrategyIsAcceptExistingUsers(): void
     {
         // Arrange
@@ -83,9 +77,6 @@ class ResolveOauthUserTest extends Unit
         $this->assertNull($resolvedUserTransfer, 'Expected that oauth user is not resolved.');
     }
 
-    /**
-     * @return void
-     */
     public function testResolveOauthUserShouldCreateOauthUserWhenSelectedStrategyIsCreateUserOnFirstLogin(): void
     {
         // Arrange
@@ -107,9 +98,6 @@ class ResolveOauthUserTest extends Unit
         $this->assertSame($resolvedUserTransfer->getUsername(), static::FAKE_EMAIL, 'Expected the same email.');
     }
 
-    /**
-     * @return void
-     */
     public function testResolveOauthUserShouldResolveExistingOauthUserWhenSelectedStrategyIsCreateUserOnFirstLogin(): void
     {
         // Arrange
@@ -169,9 +157,6 @@ class ResolveOauthUserTest extends Unit
         ];
     }
 
-    /**
-     * @return void
-     */
     public function testResolveOauthUserShouldThrowAnExceptionWhenRequiredDataIsNotProvided(): void
     {
         // Arrange
