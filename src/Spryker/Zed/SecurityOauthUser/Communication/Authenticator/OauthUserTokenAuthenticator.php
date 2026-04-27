@@ -7,6 +7,7 @@
 
 namespace Spryker\Zed\SecurityOauthUser\Communication\Authenticator;
 
+use Spryker\Zed\SecurityOauthUser\Business\SecurityOauthUserFacadeInterface;
 use Spryker\Zed\SecurityOauthUser\Communication\Reader\ResourceOwnerReaderInterface;
 use Spryker\Zed\SecurityOauthUser\SecurityOauthUserConfig;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -32,11 +33,6 @@ class OauthUserTokenAuthenticator implements AuthenticatorInterface, Authenticat
      * @var string
      */
     protected const PARAMETER_ROUTE = '_route';
-
-    /**
-     * @var string
-     */
-    protected const TOKEN = 'token';
 
     /**
      * @var string
@@ -73,7 +69,8 @@ class OauthUserTokenAuthenticator implements AuthenticatorInterface, Authenticat
         AuthenticationSuccessHandlerInterface $authenticationSuccessHandler,
         AuthenticationFailureHandlerInterface $authenticationFailureHandler,
         SecurityOauthUserConfig $config,
-        UserProviderInterface $userProvider
+        UserProviderInterface $userProvider,
+        protected SecurityOauthUserFacadeInterface $securityOauthUserFacade,
     ) {
         $this->resourceOwnerReader = $resourceOwnerReader;
         $this->authenticationSuccessHandler = $authenticationSuccessHandler;
@@ -98,8 +95,14 @@ class OauthUserTokenAuthenticator implements AuthenticatorInterface, Authenticat
         }
 
         return new SelfValidatingPassport(
-            new UserBadge($resourceOwnerTransfer->getEmailOrFail(), function ($userIdentifier) {
-                return $this->userProvider->loadUserByIdentifier($userIdentifier);
+            new UserBadge($resourceOwnerTransfer->getEmailOrFail(), function () use ($resourceOwnerTransfer) {
+                $userTransfer = $this->securityOauthUserFacade->resolveOauthUserByResourceOwner($resourceOwnerTransfer);
+
+                if ($userTransfer === null) {
+                    return null;
+                }
+
+                return $this->userProvider->loadUserByIdentifier($userTransfer->getUsernameOrFail());
             }),
         );
     }

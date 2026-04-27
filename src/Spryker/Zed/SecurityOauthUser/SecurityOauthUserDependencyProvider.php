@@ -49,6 +49,10 @@ class SecurityOauthUserDependencyProvider extends AbstractBundleDependencyProvid
      */
     public const PLUGINS_OAUTH_USER_RESTRICTION = 'PLUGINS_OAUTH_USER_RESTRICTION';
 
+    public const string PLUGINS_OAUTH_USER_AUTHENTICATION_STRATEGY = 'PLUGINS_OAUTH_USER_AUTHENTICATION_STRATEGY';
+
+    public const string PLUGINS_OAUTH_USER_POST_RESOLVE = 'PLUGINS_OAUTH_USER_POST_RESOLVE';
+
     /**
      * @see \Spryker\Shared\Application\Application::SERVICE_ROUTER
      *
@@ -76,6 +80,8 @@ class SecurityOauthUserDependencyProvider extends AbstractBundleDependencyProvid
         $container = $this->addUtilTextService($container);
         $container = $this->addOauthUserClientStrategyPlugins($container);
         $container = $this->addOauthUserRestrictionPlugins($container);
+        $container = $this->addOauthUserAuthenticationStrategyPlugins($container);
+        $container = $this->addOauthUserPostResolvePlugins($container);
 
         return $container;
     }
@@ -154,6 +160,40 @@ class SecurityOauthUserDependencyProvider extends AbstractBundleDependencyProvid
      * @return array<\Spryker\Zed\SecurityOauthUserExtension\Dependency\Plugin\OauthUserRestrictionPluginInterface>
      */
     protected function getOauthUserRestrictionPlugins(): array
+    {
+        return [];
+    }
+
+    protected function addOauthUserAuthenticationStrategyPlugins(Container $container): Container
+    {
+        $container->set(static::PLUGINS_OAUTH_USER_AUTHENTICATION_STRATEGY, function () {
+            return $this->getOauthUserAuthenticationStrategyPlugins();
+        });
+
+        return $container;
+    }
+
+    /**
+     * @return array<\Spryker\Zed\SecurityOauthUserExtension\Dependency\Plugin\OauthUserAuthenticationStrategyPluginInterface>
+     */
+    protected function getOauthUserAuthenticationStrategyPlugins(): array
+    {
+        return [];
+    }
+
+    protected function addOauthUserPostResolvePlugins(Container $container): Container
+    {
+        $container->set(static::PLUGINS_OAUTH_USER_POST_RESOLVE, function () {
+            return $this->getOauthUserPostResolvePlugins();
+        });
+
+        return $container;
+    }
+
+    /**
+     * @return array<\Spryker\Zed\SecurityOauthUserExtension\Dependency\Plugin\OauthUserPostResolvePluginInterface>
+     */
+    protected function getOauthUserPostResolvePlugins(): array
     {
         return [];
     }

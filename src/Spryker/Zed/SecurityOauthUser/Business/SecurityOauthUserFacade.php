@@ -11,6 +11,7 @@ use Generated\Shared\Transfer\OauthUserRestrictionRequestTransfer;
 use Generated\Shared\Transfer\OauthUserRestrictionResponseTransfer;
 use Generated\Shared\Transfer\ResourceOwnerRequestTransfer;
 use Generated\Shared\Transfer\ResourceOwnerResponseTransfer;
+use Generated\Shared\Transfer\ResourceOwnerTransfer;
 use Generated\Shared\Transfer\UserCriteriaTransfer;
 use Generated\Shared\Transfer\UserTransfer;
 use Spryker\Zed\Kernel\Business\AbstractFacade;
@@ -68,5 +69,21 @@ class SecurityOauthUserFacade extends AbstractFacade implements SecurityOauthUse
         return $this->getFactory()
             ->createAuthenticationStrategyExecutor()
             ->resolveOauthUser($userCriteriaTransfer);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @api
+     *
+     * @param \Generated\Shared\Transfer\ResourceOwnerTransfer $resourceOwnerTransfer
+     *
+     * @return \Generated\Shared\Transfer\UserTransfer|null
+     */
+    public function resolveOauthUserByResourceOwner(ResourceOwnerTransfer $resourceOwnerTransfer): ?UserTransfer
+    {
+        return $this->getFactory()
+            ->createOauthUserResolver()
+            ->resolveOauthUserByResourceOwner($resourceOwnerTransfer);
     }
 }

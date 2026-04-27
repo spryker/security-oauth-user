@@ -11,6 +11,7 @@ use Generated\Shared\Transfer\OauthUserRestrictionRequestTransfer;
 use Generated\Shared\Transfer\OauthUserRestrictionResponseTransfer;
 use Generated\Shared\Transfer\ResourceOwnerRequestTransfer;
 use Generated\Shared\Transfer\ResourceOwnerResponseTransfer;
+use Generated\Shared\Transfer\ResourceOwnerTransfer;
 use Generated\Shared\Transfer\UserCriteriaTransfer;
 use Generated\Shared\Transfer\UserTransfer;
 
@@ -66,4 +67,20 @@ interface SecurityOauthUserFacadeInterface
      * @return \Generated\Shared\Transfer\UserTransfer|null
      */
     public function resolveOauthUser(UserCriteriaTransfer $userCriteriaTransfer): ?UserTransfer;
+
+    /**
+     * Specification:
+     * - Resolves a Backoffice user from the OAuth resource owner data.
+     * - Runs a stack of `OauthUserAuthenticationStrategyPluginInterface` plugins; uses the first one that is applicable and returns a user.
+     * - Falls back to the configured authentication strategy (find existing / create) using the resource owner email when no plugin resolves.
+     * - Executes a stack of `OauthUserPostResolvePluginInterface` plugins after a user has been resolved.
+     * - Returns the resolved user or null when resolution fails.
+     *
+     * @api
+     *
+     * @param \Generated\Shared\Transfer\ResourceOwnerTransfer $resourceOwnerTransfer
+     *
+     * @return \Generated\Shared\Transfer\UserTransfer|null
+     */
+    public function resolveOauthUserByResourceOwner(ResourceOwnerTransfer $resourceOwnerTransfer): ?UserTransfer;
 }

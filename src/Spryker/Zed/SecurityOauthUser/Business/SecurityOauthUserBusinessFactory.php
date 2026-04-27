@@ -18,6 +18,8 @@ use Spryker\Zed\SecurityOauthUser\Business\Executor\AuthenticationStrategyExecut
 use Spryker\Zed\SecurityOauthUser\Business\Executor\AuthenticationStrategyExecutorInterface;
 use Spryker\Zed\SecurityOauthUser\Business\Reader\ResourceOwnerReader;
 use Spryker\Zed\SecurityOauthUser\Business\Reader\ResourceOwnerReaderInterface;
+use Spryker\Zed\SecurityOauthUser\Business\Resolver\OauthUserResolver;
+use Spryker\Zed\SecurityOauthUser\Business\Resolver\OauthUserResolverInterface;
 use Spryker\Zed\SecurityOauthUser\Business\Strategy\AuthenticationStrategyInterface;
 use Spryker\Zed\SecurityOauthUser\Business\Strategy\CreateUserAuthenticationStrategy;
 use Spryker\Zed\SecurityOauthUser\Business\Strategy\ExistingUserAuthenticationStrategy;
@@ -101,6 +103,15 @@ class SecurityOauthUserBusinessFactory extends AbstractBusinessFactory
         return $this->getProvidedDependency(SecurityOauthUserDependencyProvider::FACADE_ACL);
     }
 
+    public function createOauthUserResolver(): OauthUserResolverInterface
+    {
+        return new OauthUserResolver(
+            $this->getOauthUserAuthenticationStrategyPlugins(),
+            $this->getOauthUserPostResolvePlugins(),
+            $this->createAuthenticationStrategyExecutor(),
+        );
+    }
+
     /**
      * @return array<\Spryker\Zed\SecurityOauthUserExtension\Dependency\Plugin\OauthUserClientStrategyPluginInterface>
      */
@@ -115,5 +126,21 @@ class SecurityOauthUserBusinessFactory extends AbstractBusinessFactory
     public function getOauthUserRestrictionPlugins(): array
     {
         return $this->getProvidedDependency(SecurityOauthUserDependencyProvider::PLUGINS_OAUTH_USER_RESTRICTION);
+    }
+
+    /**
+     * @return array<\Spryker\Zed\SecurityOauthUserExtension\Dependency\Plugin\OauthUserAuthenticationStrategyPluginInterface>
+     */
+    public function getOauthUserAuthenticationStrategyPlugins(): array
+    {
+        return $this->getProvidedDependency(SecurityOauthUserDependencyProvider::PLUGINS_OAUTH_USER_AUTHENTICATION_STRATEGY);
+    }
+
+    /**
+     * @return array<\Spryker\Zed\SecurityOauthUserExtension\Dependency\Plugin\OauthUserPostResolvePluginInterface>
+     */
+    public function getOauthUserPostResolvePlugins(): array
+    {
+        return $this->getProvidedDependency(SecurityOauthUserDependencyProvider::PLUGINS_OAUTH_USER_POST_RESOLVE);
     }
 }

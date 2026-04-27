@@ -96,6 +96,7 @@ class SecurityOauthUserCommunicationFactory extends AbstractCommunicationFactory
             $this->createOauthUserAuthenticationFailureHandler(),
             $this->getConfig(),
             $this->createOauthUserProvider(),
+            $this->getFacade(),
         );
     }
 
