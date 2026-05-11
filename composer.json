@@ -6,6 +6,7 @@
     "require": {
         "php": ">=8.3",
         "spryker/acl": "^3.4.0",
+        "spryker/container": "^1.1.0",
         "spryker/kernel": "^3.30.0",
         "spryker/messenger": "^3.0.0",
         "spryker/security-extension": "^1.0.0",
@@ -18,7 +19,6 @@
     "require-dev": {
         "spryker/application": "*",
         "spryker/code-sniffer": "*",
-        "spryker/container": "*",
         "spryker/event-dispatcher": "*",
         "spryker/propel": "*",
         "spryker/router": "*",
