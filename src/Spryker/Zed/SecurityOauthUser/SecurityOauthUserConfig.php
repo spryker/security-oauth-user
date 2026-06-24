@@ -12,6 +12,8 @@ use Spryker\Zed\Kernel\AbstractBundleConfig;
 class SecurityOauthUserConfig extends AbstractBundleConfig
 {
     /**
+     * @api
+     *
      * Specification:
      *  - If the user does not exist it will be created automatically based on data from an external service.
      *
@@ -20,6 +22,8 @@ class SecurityOauthUserConfig extends AbstractBundleConfig
     public const AUTHENTICATION_STRATEGY_CREATE_USER_ON_FIRST_LOGIN = 'AUTHENTICATION_STRATEGY_CREATE_USER_ON_FIRST_LOGIN';
 
     /**
+     * @api
+     *
      * Specification:
      *  - Accepts only existing users for authentication.
      *
@@ -28,16 +32,22 @@ class SecurityOauthUserConfig extends AbstractBundleConfig
     public const AUTHENTICATION_STRATEGY_ACCEPT_ONLY_EXISTING_USERS = 'AUTHENTICATION_STRATEGY_ACCEPT_ONLY_EXISTING_USERS';
 
     /**
+     * @api
+     *
      * @var string
      */
     public const REQUEST_PARAMETER_AUTHENTICATION_CODE = 'code';
 
     /**
+     * @api
+     *
      * @var string
      */
     public const REQUEST_PARAMETER_AUTHENTICATION_STATE = 'state';
 
     /**
+     * @api
+     *
      * @uses \Spryker\Zed\SecurityGui\SecurityGuiConfig::ROLE_BACK_OFFICE_USER
      *
      * @var string
@@ -45,11 +55,15 @@ class SecurityOauthUserConfig extends AbstractBundleConfig
     public const ROLE_BACK_OFFICE_USER = 'ROLE_BACK_OFFICE_USER';
 
     /**
+     * @api
+     *
      * @var string
      */
     public const ROLE_OAUTH_USER = 'ROLE_OAUTH_USER';
 
     /**
+     * @api
+     *
      * @var string
      */
     public const ROUTE_NAME_OAUTH_USER_LOGIN = 'security-oauth-user:login';
