@@ -268,7 +268,6 @@ class ZedOauthUserSecurityPluginTest extends Unit
 
         $reflection = new ReflectionClass(SecurityConfigurator::class);
         $property = $reflection->getProperty('securityConfiguration');
-        $property->setAccessible(true);
         $property->setValue(null);
     }
 }
