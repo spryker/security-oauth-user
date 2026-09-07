@@ -26,6 +26,18 @@ class OauthUserAuthenticationSuccessHandler implements AuthenticationSuccessHand
      */
     protected const SECURITY_FIREWALL_NAME = 'OauthUser';
 
+    protected const string ACCESS_MODE_PRE_AUTH = 'ACCESS_MODE_PRE_AUTH';
+
+    /**
+     * @uses \Spryker\Zed\SecurityGui\Communication\Plugin\Security\Handler\UserAuthenticationSuccessHandler::MULTI_FACTOR_AUTH_LOGIN_USER_EMAIL_SESSION_KEY
+     */
+    protected const string MULTI_FACTOR_AUTH_LOGIN_USER_EMAIL_SESSION_KEY = '_multi_factor_auth_login_user_email';
+
+    /**
+     * @uses \Spryker\Zed\MultiFactorAuth\Communication\Controller\UserOauthMultiFactorAuthFlowController::ROUTE_USER_OAUTH_MFA
+     */
+    protected const string ROUTE_USER_OAUTH_MFA = '/multi-factor-auth/user-oauth-multi-factor-auth-flow/get-user-oauth-login-enabled-types';
+
     /**
      * @var \Spryker\Zed\SecurityOauthUser\Dependency\Facade\SecurityOauthUserToUserFacadeInterface
      */
@@ -48,6 +60,15 @@ class OauthUserAuthenticationSuccessHandler implements AuthenticationSuccessHand
     {
         /** @var \Spryker\Zed\SecurityOauthUser\Communication\Security\SecurityOauthUserInterface $user */
         $user = $token->getUser();
+
+        if (in_array(static::ACCESS_MODE_PRE_AUTH, $token->getRoleNames(), true)) {
+            $request->getSession()->set(
+                static::MULTI_FACTOR_AUTH_LOGIN_USER_EMAIL_SESSION_KEY,
+                $user->getUserTransfer()->getUsername(),
+            );
+
+            return new RedirectResponse(static::ROUTE_USER_OAUTH_MFA);
+        }
 
         $this->userFacade->setCurrentUser($user->getUserTransfer());
 

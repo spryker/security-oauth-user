@@ -19,46 +19,28 @@ use Spryker\Zed\SecurityOauthUser\Dependency\Service\SecurityOauthUserToUtilText
  */
 class SecurityOauthUserDependencyProvider extends AbstractBundleDependencyProvider
 {
-    /**
-     * @var string
-     */
-    public const FACADE_USER = 'FACADE_USER';
+    public const string FACADE_USER = 'FACADE_USER';
 
-    /**
-     * @var string
-     */
-    public const FACADE_ACL = 'FACADE_ACL';
+    public const string FACADE_ACL = 'FACADE_ACL';
 
-    /**
-     * @var string
-     */
-    public const FACADE_MESSENGER = 'FACADE_MESSENGER';
+    public const string FACADE_MESSENGER = 'FACADE_MESSENGER';
 
-    /**
-     * @var string
-     */
-    public const SERVICE_UTIL_TEXT = 'SERVICE_UTIL_TEXT';
+    public const string SERVICE_UTIL_TEXT = 'SERVICE_UTIL_TEXT';
 
-    /**
-     * @var string
-     */
-    public const PLUGINS_OAUTH_USER_CLIENT_STRATEGY = 'PLUGINS_OAUTH_USER_CLIENT_STRATEGY';
+    public const string PLUGINS_OAUTH_USER_CLIENT_STRATEGY = 'PLUGINS_OAUTH_USER_CLIENT_STRATEGY';
 
-    /**
-     * @var string
-     */
-    public const PLUGINS_OAUTH_USER_RESTRICTION = 'PLUGINS_OAUTH_USER_RESTRICTION';
+    public const string PLUGINS_OAUTH_USER_RESTRICTION = 'PLUGINS_OAUTH_USER_RESTRICTION';
 
     public const string PLUGINS_OAUTH_USER_AUTHENTICATION_STRATEGY = 'PLUGINS_OAUTH_USER_AUTHENTICATION_STRATEGY';
+
+    public const string PLUGINS_USER_AUTHENTICATION_HANDLER = 'PLUGINS_USER_AUTHENTICATION_HANDLER';
 
     public const string PLUGINS_OAUTH_USER_POST_RESOLVE = 'PLUGINS_OAUTH_USER_POST_RESOLVE';
 
     /**
      * @see \Spryker\Shared\Application\Application::SERVICE_ROUTER
-     *
-     * @var string
      */
-    public const SERVICE_ROUTER = 'routers';
+    public const string SERVICE_ROUTER = 'routers';
 
     public function provideCommunicationLayerDependencies(Container $container): Container
     {
@@ -67,6 +49,7 @@ class SecurityOauthUserDependencyProvider extends AbstractBundleDependencyProvid
         $container = $this->addUserFacade($container);
         $container = $this->addMessengerFacade($container);
         $container = $this->addRouter($container);
+        $container = $this->addUserAuthenticationHandlerPlugins($container);
 
         return $container;
     }
@@ -205,5 +188,22 @@ class SecurityOauthUserDependencyProvider extends AbstractBundleDependencyProvid
         });
 
         return $container;
+    }
+
+    protected function addUserAuthenticationHandlerPlugins(Container $container): Container
+    {
+        $container->set(static::PLUGINS_USER_AUTHENTICATION_HANDLER, function () {
+            return $this->getUserAuthenticationHandlerPlugins();
+        });
+
+        return $container;
+    }
+
+    /**
+     * @return array<\Spryker\Zed\SecurityGuiExtension\Dependency\Plugin\AuthenticationHandlerPluginInterface>
+     */
+    protected function getUserAuthenticationHandlerPlugins(): array
+    {
+        return [];
     }
 }

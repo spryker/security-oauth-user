@@ -58,4 +58,13 @@
         <property name="users" type="User[]" singular="user"/>
     </transfer>
 
+    <transfer name="MultiFactorAuth" strict="true">
+        <property name="user" type="User"/>
+    </transfer>
+
+    <transfer name="MultiFactorAuthValidationRequest" strict="true">
+        <property name="user" type="User"/>
+        <property name="isLogin" type="bool"/>
+    </transfer>
+
 </transfers>

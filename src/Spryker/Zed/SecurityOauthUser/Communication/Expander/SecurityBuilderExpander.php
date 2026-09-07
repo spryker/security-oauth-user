@@ -50,6 +50,13 @@ class SecurityBuilderExpander implements SecurityBuilderExpanderInterface
      */
     protected const ACCESS_MODE_PUBLIC = 'PUBLIC_ACCESS';
 
+    protected const string ACCESS_MODE_PRE_AUTH = 'ACCESS_MODE_PRE_AUTH';
+
+    /**
+     * @uses \Spryker\Zed\MultiFactorAuth\Communication\Controller\UserOauthMultiFactorAuthFlowController
+     */
+    protected const string OAUTH_MFA_ROUTE_PATTERN = '^/multi-factor-auth/user-oauth-multi-factor-auth-flow';
+
     /**
      * @var \Symfony\Component\Security\Core\User\UserProviderInterface
      */
@@ -162,6 +169,10 @@ class SecurityBuilderExpander implements SecurityBuilderExpanderInterface
             [
                 $this->config->getIgnorablePaths(),
                 static::ACCESS_MODE_PUBLIC,
+            ],
+            [
+                static::OAUTH_MFA_ROUTE_PATTERN,
+                static::ACCESS_MODE_PRE_AUTH,
             ],
             [
                 $this->config->getBackOfficeRoutePattern(),

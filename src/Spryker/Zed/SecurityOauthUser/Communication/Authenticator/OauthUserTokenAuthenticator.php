@@ -8,6 +8,7 @@
 namespace Spryker\Zed\SecurityOauthUser\Communication\Authenticator;
 
 use Spryker\Zed\SecurityOauthUser\Business\SecurityOauthUserFacadeInterface;
+use Spryker\Zed\SecurityOauthUser\Communication\Badge\MultiFactorAuthBadge;
 use Spryker\Zed\SecurityOauthUser\Communication\Reader\ResourceOwnerReaderInterface;
 use Spryker\Zed\SecurityOauthUser\SecurityOauthUserConfig;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -38,6 +39,13 @@ class OauthUserTokenAuthenticator implements AuthenticatorInterface, Authenticat
      * @var string
      */
     protected const EXCEPTION_MESSAGE_NO_API_TOKEN_PROVIDED = 'No API token provided';
+
+    protected const string ACCESS_MODE_PRE_AUTH = 'ACCESS_MODE_PRE_AUTH';
+
+    /**
+     * @uses \Spryker\Shared\MultiFactorAuth\MultiFactorAuthConstants::CODE_BLOCKED
+     */
+    protected const int CODE_BLOCKED = 1;
 
     /**
      * @var \Spryker\Zed\SecurityOauthUser\Communication\Reader\ResourceOwnerReaderInterface
@@ -71,6 +79,7 @@ class OauthUserTokenAuthenticator implements AuthenticatorInterface, Authenticat
         SecurityOauthUserConfig $config,
         UserProviderInterface $userProvider,
         protected SecurityOauthUserFacadeInterface $securityOauthUserFacade,
+        protected MultiFactorAuthBadge $multiFactorAuthBadge,
     ) {
         $this->resourceOwnerReader = $resourceOwnerReader;
         $this->authenticationSuccessHandler = $authenticationSuccessHandler;
@@ -94,16 +103,17 @@ class OauthUserTokenAuthenticator implements AuthenticatorInterface, Authenticat
             throw new CustomUserMessageAuthenticationException(static::EXCEPTION_MESSAGE_NO_API_TOKEN_PROVIDED);
         }
 
+        $userTransfer = $this->securityOauthUserFacade->resolveOauthUserByResourceOwner($resourceOwnerTransfer);
+
+        if ($userTransfer === null) {
+            throw new CustomUserMessageAuthenticationException(static::EXCEPTION_MESSAGE_NO_API_TOKEN_PROVIDED);
+        }
+
         return new SelfValidatingPassport(
-            new UserBadge($resourceOwnerTransfer->getEmailOrFail(), function () use ($resourceOwnerTransfer) {
-                $userTransfer = $this->securityOauthUserFacade->resolveOauthUserByResourceOwner($resourceOwnerTransfer);
-
-                if ($userTransfer === null) {
-                    return null;
-                }
-
+            new UserBadge($resourceOwnerTransfer->getEmailOrFail(), function () use ($userTransfer) {
                 return $this->userProvider->loadUserByIdentifier($userTransfer->getUsernameOrFail());
             }),
+            [$this->multiFactorAuthBadge->enable($userTransfer)],
         );
     }
 
@@ -139,7 +149,7 @@ class OauthUserTokenAuthenticator implements AuthenticatorInterface, Authenticat
         return new PostAuthenticationToken(
             $passport->getUser(),
             $firewallName,
-            $passport->getUser()->getRoles(),
+            $this->isUserPreAuthenticated($passport) ? [static::ACCESS_MODE_PRE_AUTH] : $passport->getUser()->getRoles(),
         );
     }
 
@@ -155,5 +165,12 @@ class OauthUserTokenAuthenticator implements AuthenticatorInterface, Authenticat
     public function createAuthenticatedToken(PassportInterface $passport, string $firewallName): TokenInterface /** @phpstan-ignore-line */
     {
         return $this->createToken($passport, $firewallName);
+    }
+
+    protected function isUserPreAuthenticated(Passport $passport): bool
+    {
+        $badge = $passport->getBadge(MultiFactorAuthBadge::class);
+
+        return $badge !== null && ($badge->getIsRequired() === true || $badge->getStatus() === static::CODE_BLOCKED);
     }
 }

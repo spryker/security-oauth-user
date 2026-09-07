@@ -10,6 +10,7 @@ namespace Spryker\Zed\SecurityOauthUser\Communication;
 use Generated\Shared\Transfer\UserTransfer;
 use Spryker\Zed\Kernel\Communication\AbstractCommunicationFactory;
 use Spryker\Zed\SecurityOauthUser\Communication\Authenticator\OauthUserTokenAuthenticator;
+use Spryker\Zed\SecurityOauthUser\Communication\Badge\MultiFactorAuthBadge;
 use Spryker\Zed\SecurityOauthUser\Communication\Expander\SecurityBuilderExpander;
 use Spryker\Zed\SecurityOauthUser\Communication\Expander\SecurityBuilderExpanderInterface;
 use Spryker\Zed\SecurityOauthUser\Communication\Plugin\Security\OauthUserSecurityPlugin;
@@ -97,7 +98,21 @@ class SecurityOauthUserCommunicationFactory extends AbstractCommunicationFactory
             $this->getConfig(),
             $this->createOauthUserProvider(),
             $this->getFacade(),
+            $this->createMultiFactorAuthBadge(),
         );
+    }
+
+    public function createMultiFactorAuthBadge(): MultiFactorAuthBadge
+    {
+        return new MultiFactorAuthBadge($this->getUserMultiFactorAuthenticationHandlerPlugins());
+    }
+
+    /**
+     * @return array<\Spryker\Zed\SecurityGuiExtension\Dependency\Plugin\AuthenticationHandlerPluginInterface>
+     */
+    public function getUserMultiFactorAuthenticationHandlerPlugins(): array
+    {
+        return $this->getProvidedDependency(SecurityOauthUserDependencyProvider::PLUGINS_USER_AUTHENTICATION_HANDLER);
     }
 
     public function createSecurityBuilderExpander(): SecurityBuilderExpanderInterface
